@@ -374,7 +374,7 @@ body::before {
         <line x1="20" y1="21" x2="20" y2="14"/><circle cx="20" cy="10" r="2"/>
       </svg>
     </button>
-    <div class="header-title" id="char-name-display">Персонаж</div>
+    <div class="header-title" id="char-name-display" data-i18n="charDefault">Персонаж</div>
     <button class="header-btn" onclick="createNewChat()" title="Новый чат">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
         <line x1="12" y1="5" x2="12" y2="19"/>
@@ -393,8 +393,8 @@ body::before {
   <div class="chat-area" id="chat-area">
     <div class="empty-state">
       <div>
-        <h3>✨ Роллплей</h3>
-        <p>Настрой персонаж в ⚙️<br>и начинай историю</p>
+        <h3 data-i18n="emptyStateTitle">✨ Роллплей</h3>
+        <p data-i18n-html="emptyStateText" data-i18n="html">Настрой персонаж в ⚙️<br>и начинай историю</p>
       </div>
     </div>
   </div>
@@ -402,14 +402,14 @@ body::before {
   <div class="modal-overlay" id="chats-modal" onclick="hideChats(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
       <div class="modal-header">
-        <span class="modal-title">Чаты</span>
+        <span class="modal-title" data-i18n="chatsTitle">Чаты</span>
         <button class="header-btn" onclick="document.getElementById('chats-modal').classList.remove('active')">✕</button>
       </div>
       <div class="chat-list" id="chat-list"></div>
     </div>
   </div>
   <div class="input-bar">
-    <textarea id="user-input" rows="1" placeholder="Сообщение..." onkeydown="handleKey(event)"></textarea>
+    <textarea id="user-input" rows="1" data-i18n="inputPlaceholder" placeholder="Сообщение..." onkeydown="handleKey(event)"></textarea>
     <button class="send-btn" id="send-btn" onclick="sendMessage()" disabled>
       <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" stroke="none">
         <path d="M8 5v14l11-7z" stroke-linejoin="round"/>
@@ -426,18 +426,21 @@ body::before {
 <div class="screen" id="screen-settings">
   <div class="header">
     <button class="header-btn" onclick="showScreen('chat')">←</button>
-    <div class="header-title">Настройки</div>
-    <div></div>
+    <div class="header-title" data-i18n="settingsTitle">Настройки</div>
+    <select id="lang-switch" onchange="setLang(this.value)" style="background:var(--bg2);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-size:13px">
+      <option value="ru">RU</option>
+      <option value="en">EN</option>
+    </select>
   </div>
   <div class="settings-content">
     <div class="input-group">
-      <label>DeepSeek API Key</label>
+      <label data-i18n="apiKeyLabel">DeepSeek API Key</label>
       <input type="password" id="api-key" placeholder="sk-..." autocomplete="off">
-      <span class="model-hint">Ключ от <code>platform.deepseek.com</code>. Хранится только в телефоне.</span>
+      <span class="model-hint" data-i18n-html="apiKeyHint" data-i18n="html">Ключ от <code>platform.deepseek.com</code>. Хранится только в телефоне.</span>
     </div>
 
     <div class="input-group">
-      <label>Модель</label>
+      <label data-i18n="modelLabel">Модель</label>
       <div class="select-wrap">
         <select id="model-name">
           <option value="deepseek-v4-pro">deepseek-v4-pro</option>
@@ -447,59 +450,59 @@ body::before {
     </div>
 
     <div class="input-group">
-      <label>Температура (креативность)</label>
+      <label data-i18n="tempLabel">Температура (креативность)</label>
       <div class="slider-row">
         <span style="font-size:12px;color:var(--text3)">0</span>
         <input type="range" id="temperature" min="0" max="2" step="0.1" value="0.9">
         <span style="font-size:12px;color:var(--text3)">2</span>
         <span class="slider-val" id="temp-val">0.9</span>
       </div>
-      <span class="model-hint">Выше — больше фантазии и неожиданных поворотов. Ниже — логичнее и предсказуемее.</span>
+      <span class="model-hint" data-i18n="tempHint">Выше — больше фантазии и неожиданных поворотов. Ниже — логичнее и предсказуемее.</span>
     </div>
 
     <div class="input-group">
-      <label>Длина ответа (max tokens)</label>
+      <label data-i18n="tokensLabel">Длина ответа (max tokens)</label>
       <div class="slider-row">
         <span style="font-size:12px;color:var(--text3)">512</span>
         <input type="range" id="max-tokens" min="512" max="8192" step="512" value="4096">
         <span style="font-size:12px;color:var(--text3)">8k</span>
         <span class="slider-val" id="tokens-val">4096</span>
       </div>
-      <span class="model-hint">Максимальная длина ответа персонажа. 4096 — среднее, 8192 — развёрнуто.</span>
+      <span class="model-hint" data-i18n="tokensHint">Максимальная длина ответа персонажа. 4096 — среднее, 8192 — развёрнуто.</span>
     </div>
 
     <div class="input-group">
-      <label>Штраф за повторение</label>
+      <label data-i18n="freqLabel">Штраф за повторение</label>
       <div class="slider-row">
         <span style="font-size:12px;color:var(--text3)">0</span>
         <input type="range" id="freq-penalty" min="0" max="2" step="0.1" value="0.3">
         <span style="font-size:12px;color:var(--text3)">2</span>
         <span class="slider-val" id="freq-val">0.3</span>
       </div>
-      <span class="model-hint">Выше — модель избегает повторять одни и те же слова и фразы.</span>
+      <span class="model-hint" data-i18n="freqHint">Выше — модель избегает повторять одни и те же слова и фразы.</span>
     </div>
 
     <div class="input-group">
-      <label>Имя персонажа</label>
-      <input type="text" id="char-name" placeholder="Например: Ариан">
+      <label data-i18n="charNameLabel">Имя персонажа</label>
+      <input type="text" id="char-name" data-i18n="charNamePlaceholder" placeholder="Например: Ариан">
     </div>
 
     <div class="input-group">
-      <label>Описание персонажа</label>
-      <textarea id="char-desc" placeholder="Опиши характер, внешность, мир, стиль общения..."></textarea>
-      <span class="model-hint">System prompt. Чем детальнее — тем живее персонаж.</span>
+      <label data-i18n="charDescLabel">Описание персонажа</label>
+      <textarea id="char-desc" data-i18n="charDescPlaceholder" placeholder="Опиши характер, внешность, мир, стиль общения..."></textarea>
+      <span class="model-hint" data-i18n="charDescHint">System prompt. Чем детальнее — тем живее персонаж.</span>
     </div>
 
     <div class="input-group">
-      <label>Приветствие (опционально)</label>
-      <textarea id="char-greeting" placeholder="Первое сообщение от персонажа при старте чата..."></textarea>
+      <label data-i18n="charGreetingLabel">Приветствие (опционально)</label>
+      <textarea id="char-greeting" data-i18n="charGreetingPlaceholder" placeholder="Первое сообщение от персонажа при старте чата..."></textarea>
     </div>
 
     <div class="input-group" style="margin-top:4px">
       <div class="toggle-row">
         <div>
-          <label class="toggle-label">🎭 Режим fiction</label>
-          <div class="toggle-hint">Говорит модели что всё — вымысел. Убирает цензуру и морализаторство.</div>
+          <label class="toggle-label" data-i18n="fictionLabel">🎭 Режим fiction</label>
+          <div class="toggle-hint" data-i18n="fictionHint">Говорит модели что всё — вымысел. Убирает цензуру и морализаторство.</div>
         </div>
         <label class="toggle-switch">
           <input type="checkbox" id="fiction-mode" checked>
@@ -511,8 +514,8 @@ body::before {
     <div class="input-group" style="margin-top:4px">
       <div class="toggle-row">
         <div>
-          <label class="toggle-label">📋 Авто-саммари</label>
-          <div class="toggle-hint">Сжимает старые сообщения. Контекст чистый, персонаж не плывёт.</div>
+          <label class="toggle-label" data-i18n="summaryLabel">📋 Авто-саммари</label>
+          <div class="toggle-hint" data-i18n="summaryHint">Сжимает старые сообщения. Контекст чистый, персонаж не плывёт.</div>
         </div>
         <label class="toggle-switch">
           <input type="checkbox" id="summary-enabled" checked>
@@ -522,29 +525,174 @@ body::before {
     </div>
 
     <div class="input-group" id="summary-settings" style="margin-top:-8px">
-      <label>Суммаризировать каждые N сообщений</label>
+      <label data-i18n="summaryEveryLabel">Суммаризировать каждые N сообщений</label>
       <div class="slider-row">
         <span style="font-size:12px;color:var(--text3)">50</span>
         <input type="range" id="summary-every" min="50" max="300" step="10" value="100">
         <span style="font-size:12px;color:var(--text3)">300</span>
         <span class="slider-val" id="summary-every-val">100</span>
       </div>
-      <span class="model-hint">Каждые N сырых сообщений — фоновый вызов для сжатия в саммари.</span>
+      <span class="model-hint" data-i18n="summaryEveryHint">Каждые N сырых сообщений — фоновый вызов для сжатия в саммари.</span>
 
-      <label style="margin-top:12px">Сырых сообщений в контексте</label>
+      <label style="margin-top:12px" data-i18n="summaryKeepLabel">Сырых сообщений в контексте</label>
       <div class="slider-row">
         <span style="font-size:12px;color:var(--text3)">10</span>
         <input type="range" id="summary-keep" min="10" max="50" step="5" value="20">
         <span style="font-size:12px;color:var(--text3)">50</span>
         <span class="slider-val" id="summary-keep-val">20</span>
       </div>
-      <span class="model-hint">Столько последних реплик модель видит дословно. Остальное — в саммари.</span>
+      <span class="model-hint" data-i18n="summaryKeepHint">Столько последних реплик модель видит дословно. Остальное — в саммари.</span>
     </div>
 
-    <button class="btn btn-primary" onclick="saveSettings()">Сохранить</button>
-    <button class="btn btn-outline" onclick="resetAll()">Сбросить всё</button>
+    <button class="btn btn-primary" onclick="saveSettings()" data-i18n="saveBtn">Сохранить</button>
+    <button class="btn btn-outline" onclick="resetAll()" data-i18n="resetBtn">Сбросить всё</button>
   </div>
 </div>
+
+
+<!-- Language Toggle: added to settings header -->
+<script>
+// ── i18n ──────────────────────────────────
+const I18N = {
+  ru: {
+    settingsTitle: "Настройки",
+    apiKeyLabel: "DeepSeek API Key",
+    apiKeyHint: 'Ключ от <code>platform.deepseek.com</code>. Хранится только в телефоне.',
+    modelLabel: "Модель",
+    tempLabel: "Температура (креативность)",
+    tempHint: "Выше — больше фантазии и неожиданных поворотов. Ниже — логичнее и предсказуемее.",
+    tokensLabel: "Длина ответа (max tokens)",
+    tokensHint: "Максимальная длина ответа персонажа. 4096 — среднее, 8192 — развёрнуто.",
+    freqLabel: "Штраф за повторение",
+    freqHint: "Выше — модель избегает повторять одни и те же слова и фразы.",
+    charNameLabel: "Имя персонажа",
+    charNamePlaceholder: "Например: Ариан",
+    charDescLabel: "Описание персонажа",
+    charDescPlaceholder: "Опиши характер, внешность, мир, стиль общения...",
+    charDescHint: "System prompt. Чем детальнее — тем живее персонаж.",
+    charGreetingLabel: "Приветствие (опционально)",
+    charGreetingPlaceholder: "Первое сообщение от персонажа при старте чата...",
+    fictionLabel: "🎭 Режим fiction",
+    fictionHint: "Говорит модели что всё — вымысел. Убирает цензуру и морализаторство.",
+    summaryLabel: "📋 Авто-саммари",
+    summaryHint: "Сжимает старые сообщения. Контекст чистый, персонаж не плывёт.",
+    summaryEveryLabel: "Суммаризировать каждые N сообщений",
+    summaryEveryHint: "Каждые N сырых сообщений — фоновый вызов для сжатия в саммари.",
+    summaryKeepLabel: "Сырых сообщений в контексте",
+    summaryKeepHint: "Столько последних реплик модель видит дословно. Остальное — в саммари.",
+    saveBtn: "Сохранить",
+    resetBtn: "Сбросить всё",
+    emptyStateTitle: "✨ Роллплей",
+    emptyStateText: 'Настрой персонаж в ⚙️<br>и начинай историю',
+    inputPlaceholder: "Сообщение...",
+    charDefault: "Персонаж",
+    chatsTitle: "Чаты",
+    noChats: "Нет сохранённых чатов",
+    msgCount: "сообщ.",
+    deleteTitle: "Удалить",
+    deleteConfirm: 'Удалить «{name}»?',
+    editBtn: "✏️ Редактировать",
+    deleteBtn: "🗑️ Удалить",
+    copyBtn: "📋 Копировать",
+    regenBtn: "🔄 Перегенерировать",
+    toastSaved: "Сохранено",
+    toastReset: "Всё сброшено",
+    toastCopied: "Скопировано",
+    toastNotCopied: "Не скопировано",
+    toastSummarizing: "📋 Саммаризация...",
+    toastSummaryOK: "✓ Саммари готово",
+    toastSummaryErr: "✗ Ошибка саммари",
+    toastNewChat: "Новый чат",
+    langLabel: "Язык"
+  },
+  en: {
+    settingsTitle: "Settings",
+    apiKeyLabel: "DeepSeek API Key",
+    apiKeyHint: 'Key from <code>platform.deepseek.com</code>. Stored only on device.',
+    modelLabel: "Model",
+    tempLabel: "Temperature (creativity)",
+    tempHint: "Higher — more fantasy and unexpected twists. Lower — more logical and predictable.",
+    tokensLabel: "Response length (max tokens)",
+    tokensHint: "Maximum character response length. 4096 — average, 8192 — verbose.",
+    freqLabel: "Repetition penalty",
+    freqHint: "Higher — model avoids repeating the same words and phrases.",
+    charNameLabel: "Character name",
+    charNamePlaceholder: "e.g. Arian",
+    charDescLabel: "Character description",
+    charDescPlaceholder: "Describe personality, appearance, world, speech style...",
+    charDescHint: "System prompt. The more detailed — the livelier the character.",
+    charGreetingLabel: "Greeting (optional)",
+    charGreetingPlaceholder: "First message from the character when starting a chat...",
+    fictionLabel: "🎭 Fiction mode",
+    fictionHint: "Tells the model everything is fiction. Removes censorship and moralizing.",
+    summaryLabel: "📋 Auto-summary",
+    summaryHint: "Compresses old messages. Keeps context clean, character stays consistent.",
+    summaryEveryLabel: "Summarize every N messages",
+    summaryEveryHint: "Every N raw messages — background call to compress into summary.",
+    summaryKeepLabel: "Raw messages in context",
+    summaryKeepHint: "This many recent lines the model sees verbatim. The rest — in summary.",
+    saveBtn: "Save",
+    resetBtn: "Reset all",
+    emptyStateTitle: "✨ Roleplay",
+    emptyStateText: 'Set up a character in ⚙️<br>and start your story',
+    inputPlaceholder: "Message...",
+    charDefault: "Character",
+    chatsTitle: "Chats",
+    noChats: "No saved chats",
+    msgCount: "msgs",
+    deleteTitle: "Delete",
+    deleteConfirm: 'Delete "{name}"?',
+    editBtn: "✏️ Edit",
+    deleteBtn: "🗑️ Delete",
+    copyBtn: "📋 Copy",
+    regenBtn: "🔄 Regenerate",
+    toastSaved: "Saved",
+    toastReset: "All reset",
+    toastCopied: "Copied",
+    toastNotCopied: "Not copied",
+    toastSummarizing: "📋 Summarizing...",
+    toastSummaryOK: "✓ Summary ready",
+    toastSummaryErr: "✗ Summary error",
+    toastNewChat: "New chat",
+    langLabel: "Language"
+  }
+};
+
+let currentLang = localStorage.getItem('rp_lang') || 'ru';
+function t(key, vars) {
+  let s = (I18N[currentLang] || I18N['ru'])[key] || key;
+  if (vars) for (const k in vars) s = s.replace('{'+k+'}', vars[k]);
+  return s;
+}
+function applyI18n() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (key === 'html') {
+      const htmlKey = el.getAttribute('data-i18n-html');
+      el.innerHTML = t(htmlKey);
+    } else if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+      el.placeholder = t(key);
+    } else {
+      el.textContent = t(key);
+    }
+  });
+  // Update char display
+  const cd = document.getElementById('char-name-display');
+  if (cd && cd.textContent === I18N['ru'].charDefault || cd.textContent === I18N['en'].charDefault) {
+    cd.textContent = t('charDefault');
+  } else if (cd && charName) {
+    cd.textContent = charName;
+  }
+}
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('rp_lang', lang);
+  applyI18n();
+  // Re-render dynamic content
+  if (typeof renderMessages === 'function') renderMessages();
+  if (typeof showChats === 'function' && document.getElementById('chats-modal').classList.contains('active')) showChats();
+}
+</script>
 
 <script>
 // ── State ──────────────────────────────────
@@ -681,7 +829,7 @@ function saveSettings() {
     renderMessages();
   }
 
-  toast('Сохранено');
+  toast(t('toastSaved'));
   showScreen('chat');
 }
 
@@ -713,11 +861,11 @@ function resetAll() {
   charName = ''; charDesc = ''; charGreeting = '';
   updateCharDisplay();
   renderMessages();
-  toast('Всё сброшено');
+  toast(t('toastReset'));
 }
 
 function updateCharDisplay() {
-  document.getElementById('char-name-display').textContent = charName || 'Персонаж';
+  document.getElementById('char-name-display').textContent = charName || t('charDefault');
 }
 
 function toggleSummarySettings() {
@@ -796,7 +944,7 @@ function escapeHtml(text) {
 function renderMessages() {
   const area = document.getElementById('chat-area');
   if (messages.length === 0) {
-    area.innerHTML = `<div class="empty-state"><div><h3>✨ Роллплей</h3><p>Настрой персонаж в ⚙️<br>и начинай историю</p></div></div>`;
+    area.innerHTML = `<div class="empty-state"><div><h3>${t('emptyStateTitle')}</h3><p>${t('emptyStateText')}</p></div></div>`;
     return;
   }
   const wasAtBottom = area.scrollHeight - area.scrollTop - area.clientHeight < 50;
@@ -979,17 +1127,17 @@ function maybeSummarize() {
   const cappedChunk = chunk.slice(-150);
 
   isSummarizing = true;
-  toast('📋 Саммаризация...');
+  toast(t('toastSummarizing'));
 
   summarizeChunk(cappedChunk, summaryText).then(newSummary => {
     summaryText = newSummary;
     lastSummarizedIdx = Math.max(lastSummarizedIdx, chunkEnd - 1 - (chunk.length - cappedChunk.length));
     saveCurrentChat();
     isSummarizing = false;
-    toast('✓ Саммари готово');
+    toast(t('toastSummaryOK'));
   }).catch(() => {
     isSummarizing = false;
-    toast('✗ Ошибка саммари');
+    toast(t('toastSummaryErr'));
   });
 }
 
@@ -1111,14 +1259,14 @@ function showContextMenu(e, isUser) {
   // Build menu content based on role
   if (isUser) {
     menu.innerHTML = `
-      <button onclick="editUserMessage()">✏️ Редактировать</button>
-      <button class="delete" onclick="deleteContextMessage()">🗑️ Удалить</button>
+      <button onclick="editUserMessage()">${t('editBtn')}</button>
+      <button class="delete" onclick="deleteContextMessage()">${t('deleteBtn')}</button>
     `;
   } else {
     menu.innerHTML = `
-      <button onclick="copyMessage()">📋 Копировать</button>
-      <button onclick="regenerateMessage()">🔄 Перегенерировать</button>
-      <button class="delete" onclick="deleteContextMessage()">🗑️ Удалить</button>
+      <button onclick="copyMessage()">${t('copyBtn')}</button>
+      <button onclick="regenerateMessage()">${t('regenBtn')}</button>
+      <button class="delete" onclick="deleteContextMessage()">${t('deleteBtn')}</button>
     `;
   }
   // Position near touch point, but keep on screen
@@ -1153,7 +1301,7 @@ function copyMessage() {
   if (contextIdx === null) return;
   const text = messages[contextIdx].text;
   hideContextMenu();
-  navigator.clipboard.writeText(text).then(() => toast('Скопировано')).catch(() => toast('Не скопировано'));
+  navigator.clipboard.writeText(text).then(() => toast(t('toastCopied'))).catch(() => toast(t('toastNotCopied')));
 }
 
 async function regenerateMessage() {
@@ -1284,15 +1432,15 @@ function showChats() {
   saveCurrentChat();
   const entries = Object.entries(chats).sort((a,b) => b[1].updated - a[1].updated);
   if (entries.length === 0) {
-    list.innerHTML = '<div class="chat-list-empty">Нет сохранённых чатов</div>';
+    list.innerHTML = '<div class="chat-list-empty">' + t('noChats') + '</div>';
   } else {
     list.innerHTML = entries.map(([id, chat]) => {
       const active = id === activeChatId ? ' •' : '';
       const count = (chat.messages||[]).length;
       return `<div class="chat-list-item" onclick="switchToChat('${id}')">
         <span class="chat-list-item-name">${escapeHtml(chat.name)}${active}</span>
-        <span class="chat-list-item-meta">${count} сообщ.</span>
-        <button class="chat-list-item-del" onclick="deleteChat('${id}',event)" title="Удалить">✕</button>
+        <span class="chat-list-item-meta">${count} ${t('msgCount')}</span>
+        <button class="chat-list-item-del" onclick="deleteChat('${id}',event)" title="${t('deleteTitle')}">✕</button>
       </div>`;
     }).join('');
   }
@@ -1307,7 +1455,7 @@ function deleteChat(chatId, event) {
   event.stopPropagation();
   const chats = loadChats();
   const name = chats[chatId]?.name || 'чат';
-  if (!confirm('Удалить «' + name + '»?')) return;
+  if (!confirm(t('deleteConfirm', {name: name}))) return;
   delete chats[chatId];
   saveChats(chats);
   if (activeChatId === chatId) {
@@ -1338,7 +1486,7 @@ function createNewChat() {
   if (charGreeting) messages.push({ role: 'char', text: charGreeting });
   saveCurrentChat();
   renderMessages();
-  toast('Новый чат');
+  toast(t('toastNewChat'));
 }
 
 // Override saveMessages to always save to current chat
@@ -1349,6 +1497,8 @@ saveMessages = function() {
 };
 
 loadAll();
+applyI18n();
+document.getElementById('lang-switch').value = currentLang;
 if (charName && charGreeting && messages.length === 0) {
   messages.push({ role: 'char', text: charGreeting });
   saveMessages();
